@@ -4,70 +4,56 @@ import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 public class HTTPClient {
-    private static final String EMAIL = "karamfilovs@gmail.com";
-    private static final String PASSWORD = "123456";
-    protected final Gson GSON = new Gson().newBuilder()
-            .setPrettyPrinting().create();
+    private String token = null;
+    protected final Gson GSON = new Gson()
+            .newBuilder()
+            .setPrettyPrinting()
+            .create();
 
-    static {
-        RestAssured.baseURI = "https://st2016.inv.bg";
-        RestAssured.basePath = "/RESTapi";
-        RestAssured.authentication = RestAssured.preemptive().basic(EMAIL, PASSWORD);
+    public HTTPClient(String token) {
+        this.token = token;
     }
 
-    protected Response post(String resourceUrl, String body){
-        Response response = RestAssured
-                .given()
-                .log()
-                .all()
+
+    protected Response post(String resourceUrl, String body) {
+        return baseRequest()
                 .body(body)
-                .contentType(ContentType.JSON)
                 .when()
-                .post(resourceUrl);
-        System.out.println("RESPONSE:");
-        response.prettyPrint();
-        return response;
+                .post(resourceUrl).prettyPeek();
     }
 
-    protected Response put(String resourceUrl, String body){
-        Response response = RestAssured
-                .given()
-                .log()
-                .all()
+    protected Response put(String resourceUrl, String body) {
+        return baseRequest()
                 .body(body)
-                .contentType(ContentType.JSON)
                 .when()
-                .put(resourceUrl);
-        System.out.println("RESPONSE:");
-        response.prettyPrint();
-        return response;
+                .put(resourceUrl)
+                .prettyPeek();
     }
 
-    protected Response get(String resourceUrl){
-        Response response = RestAssured
-                .given()
+    protected Response get(String resourceUrl) {
+        return baseRequest()
+                .when()
+                .get(resourceUrl)
+                .prettyPeek();
+    }
+
+    protected Response delete(String resourceUrl) {
+        return baseRequest()
+                .when()
+                .delete(resourceUrl)
+                .prettyPeek();
+    }
+
+    private RequestSpecification baseRequest() {
+        return RestAssured.given()
+                .auth()
+                .oauth2(token)
                 .log()
                 .all()
                 .contentType(ContentType.JSON)
-                .when()
-                .get(resourceUrl);
-        System.out.println("RESPONSE:");
-        response.prettyPrint();
-        return response;
-    }
-
-    protected Response delete(String resourceUrl){
-        Response response = RestAssured
-                .given()
-                .log()
-                .all()
-                .contentType(ContentType.JSON)
-                .when()
-                .delete(resourceUrl);
-        System.out.println("RESPONSE:");
-        response.prettyPrint();
-        return response;
+                .accept(ContentType.JSON);
     }
 }

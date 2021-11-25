@@ -4,8 +4,11 @@ import inv.dto.Client;
 import io.restassured.response.Response;
 
 public class ClientAPI extends HTTPClient {
-    private static final String CLIENT_URL = "/client";
-    private static final String CLIENTS_URL = "/clients";
+    private static final String CLIENT_URL = "/clients";
+
+    public ClientAPI(String token){
+        super(token);
+    }
 
     /**
      * Creates new client
@@ -30,7 +33,7 @@ public class ClientAPI extends HTTPClient {
      * @return array of clients
      */
     public Response getAll(){
-        return get(CLIENTS_URL);
+        return get(CLIENT_URL);
     }
 
     /**
