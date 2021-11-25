@@ -7,9 +7,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Client {
-    private String firm_name;
-    private String firm_town;
-    private String firm_addr;
-    private boolean firm_is_reg_vat;
-    private String firm_mol;
+    private String name;
+    private String town;
+    private String address;
+    private boolean is_reg_vat;
+    private String mol;
+    private String bulstat;
 }

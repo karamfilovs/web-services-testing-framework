@@ -77,6 +77,11 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>1.17.0</version>
+        </dependency>
 
     </dependencies>
 
@@ -89,6 +94,15 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
+                <configuration>
+                    <systemProperties>
+                        <baseUrl>https://api.inv.bg</baseUrl>
+                        <apiVersion>/v3</apiVersion>
+                        <email>karamfilovs@gmail.com</email>
+                        <password>123456</password>
+                        <domain>st2016</domain>
+                    </systemProperties>
+                </configuration>
             </plugin>
         </plugins>
     </build>

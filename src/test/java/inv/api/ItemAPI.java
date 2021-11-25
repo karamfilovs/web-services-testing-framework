@@ -1,10 +1,16 @@
 package inv.api;
 
+import com.jayway.jsonpath.JsonPath;
 import inv.dto.Item;
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class ItemAPI extends HTTPClient {
     private static final String ITEM_URL = "/items";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemAPI.class);
 
     public ItemAPI(String token) {
         super(token);
@@ -56,5 +62,12 @@ public class ItemAPI extends HTTPClient {
      */
     public Response updateClient(int id, Item item) {
         return put(ITEM_URL + "/" + id, GSON.toJson(item));
+    }
+
+    public void deleteAll(){
+        String responseBody = getAll().body().asString();
+        List<Integer> ids = JsonPath.read(responseBody, "$.items[*].id");
+        LOGGER.debug("Ids for deletion found:" +  ids.toString());
+        ids.forEach(id -> deleteItem(id));
     }
 }

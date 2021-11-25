@@ -5,5 +5,5 @@ import lombok.Getter;
 
 @Getter
 public class SuccessResponse {
-    private Success success;
+    private String id;
 }

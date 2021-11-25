@@ -33,6 +33,14 @@ public class HTTPClient {
                 .prettyPeek();
     }
 
+    protected Response patch(String resourceUrl, String body) {
+        return baseRequest()
+                .body(body)
+                .when()
+                .patch(resourceUrl)
+                .prettyPeek();
+    }
+
     protected Response get(String resourceUrl) {
         return baseRequest()
                 .when()

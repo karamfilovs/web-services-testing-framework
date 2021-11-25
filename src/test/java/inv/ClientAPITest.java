@@ -3,13 +3,20 @@ package inv;
 import inv.dto.Client;
 import inv.dto.SuccessResponse;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 
 public class ClientAPITest extends BaseAPITest {
+    private final static Logger LOGGER = LoggerFactory.getLogger(ClientAPITest.class);
+
+
+    @BeforeEach
+    public void beforeEachTest(TestInfo testInfo){
+        LOGGER.info("Starting test: " + testInfo.getDisplayName());
+    }
 
     @Test
     @DisplayName("Can get all clients")
@@ -21,9 +28,10 @@ public class ClientAPITest extends BaseAPITest {
     @Test
     @DisplayName("Can create client")
     void canCreateClient() {
-        Client client = new Client("Pragmatic2022" + LocalDate.now(), "Sofia", "Ivan Stranski", false, "Alex");
+        Client client = new Client("Pragmatic2022" + LocalDate.now(), "Sofia", "Ivan Stranski",
+                false, "Alex", "1231231212");
         Response createResponse = api.clientAPI().createClient(client);
-        Assertions.assertEquals(200, createResponse.statusCode());
+        Assertions.assertEquals(201, createResponse.statusCode());
         Assertions.assertTrue(createResponse.getBody().asString().contains("Клиента е създаден успешно!"));
     }
 
@@ -31,17 +39,18 @@ public class ClientAPITest extends BaseAPITest {
     @DisplayName("Can update existing client")
     void canUpdateExistingClient() {
         //Create client dto
-        Client client = new Client("Pragmatic2025" + LocalDate.now(), "Sofia", "Ivan Stranski", false, "Alex");
+        Client client = new Client("Pragmatic2025" + LocalDate.now(), "Sofia",
+                "Ivan Stranski", false, "Alex", "1212112122");
         //Send create client request
         Response createResponse = api.clientAPI().createClient(client);
-        Assertions.assertEquals(200, createResponse.statusCode());
-        Assertions.assertTrue(createResponse.getBody().asString().contains("Клиента е създаден успешно!"));
+        Assertions.assertEquals(201, createResponse.statusCode());
+        Assertions.assertTrue(createResponse.getBody().asString().contains("id"));
         //Deserialize the success response into success response object
         SuccessResponse successResponse = GSON.fromJson(createResponse.body().asString(), SuccessResponse.class);
         //Change the client name in the dto
-        client.setFirm_name("Update Pragmatic Name");
+        client.setName("Update Pragmatic Name");
         //Update the client
-        Response updateResponse = api.clientAPI().updateClient(successResponse.getSuccess().getId(), client);
+        Response updateResponse = api.clientAPI().updateClient(Integer.valueOf(successResponse.getId()), client);
         Assertions.assertEquals(200, updateResponse.statusCode());
     }
 
@@ -51,7 +60,7 @@ public class ClientAPITest extends BaseAPITest {
         Response response = api.clientAPI().deleteClient(1574);
         Assertions.assertEquals(200, response.statusCode());
         SuccessResponse successResponse = GSON.fromJson(response.body().asString(), SuccessResponse.class);
-        Assertions.assertEquals("Клиента е изтрит", successResponse.getSuccess().getMessage());
+        Assertions.assertEquals("Клиента е изтрит", successResponse.getId());
     }
 
     @Test

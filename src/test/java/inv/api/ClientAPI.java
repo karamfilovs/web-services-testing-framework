@@ -1,10 +1,16 @@
 package inv.api;
 
+import com.jayway.jsonpath.JsonPath;
 import inv.dto.Client;
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class ClientAPI extends HTTPClient {
     private static final String CLIENT_URL = "/clients";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientAPI.class);
 
     public ClientAPI(String token){
         super(token);
@@ -52,6 +58,13 @@ public class ClientAPI extends HTTPClient {
      * @return response
      */
     public Response updateClient(int id, Client client){
-        return put(CLIENT_URL + "/" + id, GSON.toJson(client));
+        return patch(CLIENT_URL + "/" + id, GSON.toJson(client));
+    }
+
+    public void deleteAll(){
+        String responseBody = getAll().body().asString();
+        List<Integer> ids = JsonPath.read(responseBody, "$.clients[*].id");
+        LOGGER.debug("Ids for deletion found:" +  ids.toString());
+        ids.forEach(id -> deleteClient(id));
     }
 }
