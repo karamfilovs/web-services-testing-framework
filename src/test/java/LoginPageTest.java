@@ -63,8 +63,8 @@ public class LoginPageTest extends BaseAPITest {
         page.click(USER_PANEL_SELECTOR);
         page.click(LOGOUT_LINK_SELECTOR);
         //Logout message check
-        String logoutMsg = page.textContent(LOGOUT_SUCCESS_MSG_SELECTOR);
-        //Assertions.assertEquals("Вие излязохте от акаунта си.\n", logoutMsg);
+        String logoutMsg = page.textContent(LOGOUT_SUCCESS_MSG_SELECTOR).replace("\u00a0",""); //TODO: report as a bug :)
+        Assertions.assertEquals("Вие излязохте от акаунта си.", logoutMsg);
     }
 
 
