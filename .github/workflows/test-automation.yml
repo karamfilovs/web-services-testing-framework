@@ -24,4 +24,9 @@ jobs:
         cache: maven
     - name: Execute all tests
       run: mvn clean test -Dgroups=ui --file pom.xml
-
+    - name: Test Reporter
+      uses: dorny/test-reporter@v1.4.3
+      with:
+        name: junit execution report
+        path: "**/surefire-reports/TEST-*.xml"
+        reporter: java-junit
