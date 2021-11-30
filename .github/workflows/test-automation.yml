@@ -42,7 +42,7 @@ jobs:
       - name: Test Reporter API
         uses: dorny/test-reporter@v1.4.3
         with:
-          name: junit execution report
+          name: junit execution report api
           path: "**/surefire-reports/TEST-*.xml"
           reporter: java-junit
 
@@ -61,7 +61,8 @@ jobs:
       run: mvn clean test -Dgroups=ui -Dheadless=true --file pom.xml
     - name: Test Reporter UI
       uses: dorny/test-reporter@v1.4.3
+      if: always()
       with:
-        name: junit execution report
+        name: junit execution report ui
         path: "**/surefire-reports/TEST-*.xml"
         reporter: java-junit
