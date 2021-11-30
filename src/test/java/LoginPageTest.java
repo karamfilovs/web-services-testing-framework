@@ -1,7 +1,8 @@
-import com.microsoft.playwright.*;
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import inv.BaseAPITest;
-import inv.api.API;
-import inv.api.TokenAPI;
 import inv.dto.Item;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
@@ -11,20 +12,15 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class LoginPageTest extends BaseAPITest {
     private static Browser browser = null;
     private Page page;
-    private final String EMAIL_SELECTOR = "#loginusername";
-    private final String PASSWORD_SELECTOR = "#loginpassword";
-    private final String LOGIN_BTN_SELECTOR = "input.selenium-submit-button";
-    private final String COMPANY_NAME_SELECTOR = "//div[@id='wellcome']/h2";
-    private final String USER_PANEL_SELECTOR = "div.userpanel-header";
-    private final String LOGOUT_LINK_SELECTOR = "a.selenium-button-logout";
-    private final String LOGOUT_SUCCESS_MSG_SELECTOR = "#okmsg";
+    private final String loginButtonSelector = "input.selenium-submit-button";
+    private final String userPanelSelector = "div.userpanel-header";
 
 
     @BeforeAll
     static void beforeAll() {
         browser = Playwright.create()
                 .chromium()
-                .launch(new BrowserType.LaunchOptions().setHeadless(true));
+                .launch(new BrowserType.LaunchOptions().setHeadless(Boolean.valueOf(System.getProperty("headless", "true"))));
     }
 
 
@@ -48,31 +44,33 @@ public class LoginPageTest extends BaseAPITest {
     }
 
     @Test
-    @Tag("smoke")
+    @Tag("ui")
     @DisplayName("Can login successfully with valid credentials")
     void canLoginSuccessfullyWithValidCredentials() {
         login();
     }
 
     @Test
-    @Tag("smoke")
+    @Tag("ui")
     @DisplayName("Can login successfully with valid credentials and logout")
     void canLoginSuccessfullyWithValidCredentialsAndLogout() {
         login();
         //Logout
-        page.click(USER_PANEL_SELECTOR);
-        page.click(LOGOUT_LINK_SELECTOR);
+        page.click(userPanelSelector);
+        String logoutLinkSelector = "a.selenium-button-logout";
+        page.click(logoutLinkSelector);
         //Logout message check
-        String logoutMsg = page.textContent(LOGOUT_SUCCESS_MSG_SELECTOR).replace("\u00a0",""); //TODO: report as a bug :)
+        String logoutSuccessMsgSelector = "#okmsg";
+        String logoutMsg = page.textContent(logoutSuccessMsgSelector).replace("\u00a0", ""); //TODO: report as a bug :)
         Assertions.assertEquals("Вие излязохте от акаунта си.", logoutMsg);
     }
 
 
     @ParameterizedTest
     @ValueSource(strings = {"име на артикул", "item_name", "search_test"})
-    @Tag("item")
+    @Tag("ui")
     @Tag("positive")
-    void canSearchForExistingItems(String name){
+    void canSearchForExistingItems(String name) {
         //Clean all existing items
         api.itemAPI().deleteAll();
         //Create new item to search for
@@ -94,17 +92,20 @@ public class LoginPageTest extends BaseAPITest {
     }
 
     private void login() {
-        String companyName = page.textContent(COMPANY_NAME_SELECTOR);
+        String companyNameSelector = "//div[@id='wellcome']/h2";
+        String companyName = page.textContent(companyNameSelector);
         Assertions.assertEquals("QA Ground", companyName);
         //Enter email
-        page.fill(EMAIL_SELECTOR, "karamfilovs@gmail.com");
+        String emailSelector = "#loginusername";
+        page.fill(emailSelector, "karamfilovs@gmail.com");
         //Enter password
-        page.fill(PASSWORD_SELECTOR, "123456");
+        String passwordSelector = "#loginpassword";
+        page.fill(passwordSelector, "123456");
         //Click Login button
         page.waitForNavigation(() -> {
-            page.click(LOGIN_BTN_SELECTOR);
+            page.click(loginButtonSelector);
         });
-        String loggedUser = page.textContent(USER_PANEL_SELECTOR);
+        String loggedUser = page.textContent(userPanelSelector);
         Assertions.assertEquals("karamfilovs@gmail.com", loggedUser);
     }
 
