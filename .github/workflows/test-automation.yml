@@ -23,7 +23,7 @@ jobs:
         distribution: 'adopt'
         cache: maven
     - name: Execute all tests
-      run: mvn clean test -Dgroups=ui --file pom.xml
+      run: mvn clean test -Dgroups=ui -Dheadless=true --file pom.xml
     - name: Test Reporter
       uses: dorny/test-reporter@v1.4.3
       with:

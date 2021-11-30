@@ -20,7 +20,7 @@ public class ItemPageTest extends BaseAPITest {
     static void beforeAll() {
         browser = Playwright.create()
                 .chromium()
-                .launch(new BrowserType.LaunchOptions().setHeadless(Boolean.parseBoolean(System.getProperty("headless", "false"))));
+                .launch(new BrowserType.LaunchOptions().setHeadless(Boolean.parseBoolean(System.getProperty("headless", "true"))));
     }
 
 
