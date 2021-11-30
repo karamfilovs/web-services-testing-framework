@@ -60,7 +60,6 @@ public class ClientAPITest extends BaseAPITest {
     }
 
     @Test
-    @Disabled
     @DisplayName("Can delete existing client")
     void canDeleteExistingClient() {
         //Create client dto
