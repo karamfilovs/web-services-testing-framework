@@ -111,4 +111,11 @@ public class LoginPageTest extends BaseAPITest {
         Assertions.assertEquals("karamfilovs@gmail.com", loggedUser);
     }
 
+    @Test
+    @Tag("ui")
+    @DisplayName("Just failing test")
+    void failingTest(){
+        Assertions.assertTrue(false);
+    }
+
 }
