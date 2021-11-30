@@ -25,7 +25,7 @@ jobs:
       - name: Compile project
         run: mvn clean package -DskipTests --file pom.xml
 
-  api-tests:
+  api_tests:
     runs-on: ubuntu-latest
     needs: compile
 
@@ -49,7 +49,7 @@ jobs:
   e2e_tests:
 
     runs-on: ubuntu-latest
-    needs: [api_tests]
+    needs: api_tests
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
