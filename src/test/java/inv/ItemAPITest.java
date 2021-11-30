@@ -1,5 +1,6 @@
 package inv;
 
+import inv.core.BaseAPITest;
 import inv.dto.Item;
 import inv.dto.SuccessResponse;
 import io.restassured.response.Response;

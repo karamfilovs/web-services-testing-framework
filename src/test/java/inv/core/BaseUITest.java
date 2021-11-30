@@ -1,4 +1,4 @@
-package inv;
+package inv.core;
 
 public class BaseUITest {
 }

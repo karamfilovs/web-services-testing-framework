@@ -1,6 +1,7 @@
-package inv;
+package inv.core;
 
 import com.google.gson.Gson;
+import inv.ClientAPITest;
 import inv.api.API;
 import inv.api.TokenAPI;
 import inv.dto.Login;

@@ -1,8 +1,10 @@
+package inv;
+
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import inv.BaseAPITest;
+import inv.core.BaseAPITest;
 import inv.dto.Item;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
@@ -20,7 +22,7 @@ public class LoginPageTest extends BaseAPITest {
     static void beforeAll() {
         browser = Playwright.create()
                 .chromium()
-                .launch(new BrowserType.LaunchOptions().setHeadless(Boolean.valueOf(System.getProperty("headless", "true"))));
+                .launch(new BrowserType.LaunchOptions().setHeadless(Boolean.parseBoolean(System.getProperty("headless", "true"))));
     }
 
 
