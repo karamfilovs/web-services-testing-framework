@@ -42,14 +42,14 @@ jobs:
       - name: Test Reporter API
         uses: dorny/test-reporter@v1.4.3
         with:
-          name: junit execution report
+          name: junit execution report api
           path: "**/surefire-reports/TEST-*.xml"
           reporter: java-junit
 
   e2e_tests:
 
     runs-on: ubuntu-latest
-    needs: [compile]
+    needs: [api_tests]
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -63,6 +63,6 @@ jobs:
     - name: Test Reporter UI
       uses: dorny/test-reporter@v1.4.3
       with:
-        name: junit execution report
+        name: junit execution report ui
         path: "**/surefire-reports/TEST-*.xml"
         reporter: java-junit
