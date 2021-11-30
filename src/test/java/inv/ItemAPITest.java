@@ -24,7 +24,7 @@ public class ItemAPITest extends BaseAPITest {
         //Create new item to search for
         Item item = new Item("Automated ITEM", 20.00, "кг.", 10.0, "EUR");
         Response resp = api.itemAPI().createItem(item);
-        Assertions.assertEquals(201, resp.statusCode());
+        Assertions.assertEquals(201, resp.statusCode())
     }
 
     @Test
