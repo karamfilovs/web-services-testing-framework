@@ -112,7 +112,7 @@ public class LoginPageTest extends BaseAPITest {
     }
 
     @Test
-    @Tag("ui")
+    @Disabled
     @DisplayName("Just failing test")
     void failingTest(){
         Assertions.assertTrue(false);
