@@ -22,7 +22,7 @@ public class LoginPageTest extends BaseAPITest {
     static void beforeAll() {
         browser = Playwright.create()
                 .chromium()
-                .launch(new BrowserType.LaunchOptions().setHeadless(Boolean.parseBoolean(System.getProperty("headless", "true"))));
+                .launch(new BrowserType.LaunchOptions().setHeadless(Boolean.parseBoolean(System.getProperty("headless", "false"))));
     }
 
 
@@ -76,7 +76,7 @@ public class LoginPageTest extends BaseAPITest {
         //Clean all existing items
         api.itemAPI().deleteAll();
         //Create new item to search for
-        Item item = new Item(name, 20.00, "кг.", 10.0, "EUR");
+        Item item = new Item(name, 0, "кг.", 10.0, "EUR");
         Response resp = api.itemAPI().createItem(item);
         Assertions.assertEquals(201, resp.statusCode());
         login();

@@ -12,15 +12,14 @@ import org.junit.jupiter.api.*;
 public class ItemPageTest extends BaseAPITest {
     private static Browser browser = null;
     private Page page;
-    private final String loginButtonSelector = "input.selenium-submit-button";
-    private final String userPanelSelector = "div.userpanel-header";
+    private static boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
 
 
     @BeforeAll
     static void beforeAll() {
         browser = Playwright.create()
                 .chromium()
-                .launch(new BrowserType.LaunchOptions().setHeadless(Boolean.parseBoolean(System.getProperty("headless", "true"))));
+                .launch(new BrowserType.LaunchOptions().setHeadless(isHeadless));
     }
 
 
@@ -36,7 +35,7 @@ public class ItemPageTest extends BaseAPITest {
     @Test
     @Tag("ui")
     @DisplayName("Can create new item")
-    void canCreateNewItem(){
+    void canCreateNewItem() {
         LoginPage loginPage = new LoginPage(page);
         ItemPage itemPage = new ItemPage(page);
         loginPage.login();
@@ -48,7 +47,7 @@ public class ItemPageTest extends BaseAPITest {
     @Test
     @Tag("ui")
     @DisplayName("Can navigate to item page")
-    void canNavigateToItemPage(){
+    void canNavigateToItemPage() {
         LoginPage loginPage = new LoginPage(page);
         ItemPage itemPage = new ItemPage(page);
         loginPage.login();
