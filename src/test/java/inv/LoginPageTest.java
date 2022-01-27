@@ -69,6 +69,7 @@ public class LoginPageTest extends BaseAPITest {
 
 
     @ParameterizedTest
+    @DisplayName("Can search for item")
     @ValueSource(strings = {"име на артикул", "item_name", "search_test"})
     @Tag("ui")
     @Tag("positive")
@@ -112,7 +113,7 @@ public class LoginPageTest extends BaseAPITest {
     }
 
     @Test
-    @Tag("ui")
+    @Disabled
     @DisplayName("Just failing test")
     void failingTest(){
         Assertions.assertTrue(false);
