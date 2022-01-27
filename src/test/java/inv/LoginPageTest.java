@@ -77,7 +77,7 @@ public class LoginPageTest extends BaseAPITest {
         //Clean all existing items
         api.itemAPI().deleteAll();
         //Create new item to search for
-        Item item = new Item(name, 0, "кг.", 10.0, "EUR");
+        Item item = new Item(name, 1, "кг.", 10.0, "EUR");
         Response resp = api.itemAPI().createItem(item);
         Assertions.assertEquals(201, resp.statusCode());
         login();
