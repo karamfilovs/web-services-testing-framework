@@ -16,7 +16,6 @@ public class ClientAPITest extends BaseAPITest {
 
     @BeforeEach
     public void beforeEachTest(TestInfo testInfo){
-
         LOGGER.info("Starting test: " + testInfo.getDisplayName());
     }
 
