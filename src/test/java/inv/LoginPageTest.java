@@ -68,31 +68,7 @@ public class LoginPageTest extends BaseAPITest {
     }
 
 
-    @ParameterizedTest
-    @DisplayName("Can search for item")
-    @ValueSource(strings = {"име на артикул", "item_name", "search_test"})
-    @Tag("ui")
-    @Tag("positive")
-    void canSearchForExistingItems(String name) {
-        //Clean all existing items
-        api.itemAPI().deleteAll();
-        //Create new item to search for
-        Item item = new Item(name, 1, "кг.", 10.0, "EUR");
-        Response resp = api.itemAPI().createItem(item);
-        Assertions.assertEquals(201, resp.statusCode());
-        login();
-        //Navigates to Item page
-        page.click("#tabs_objects");
-        //Expand search form
-        page.click("#searchbtn");
-        //Enter search criteria
-        page.fill("input[name='nm']", name);
-        //Trigger search
-        page.click("input[name='s']");
-        //Check the search result output
-        String searchResult = page.textContent("a.faktura_id");
-        Assertions.assertTrue(searchResult.contains(name));
-    }
+
 
     private void login() {
         String companyNameSelector = "//div[@id='wellcome']/h2";

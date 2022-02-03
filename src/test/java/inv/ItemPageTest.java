@@ -5,9 +5,13 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import inv.core.BaseAPITest;
+import inv.dto.Item;
 import inv.ui.ItemPage;
 import inv.ui.LoginPage;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ItemPageTest extends BaseAPITest {
     private static Browser browser = null;
@@ -53,5 +57,33 @@ public class ItemPageTest extends BaseAPITest {
         loginPage.login();
         itemPage.goTo();
         Assertions.assertEquals("Артикули", itemPage.getHeadline());
+    }
+
+    @ParameterizedTest
+    @DisplayName("Can search for item")
+    @ValueSource(strings = {"име на артикул", "item_name", "search_test"})
+    @Tag("ui")
+    @Tag("positive")
+    void canSearchForExistingItems(String name) {
+        //Change something
+        //Clean all existing items
+        api.itemAPI().deleteAll();
+        //Create new item to search for
+        Item item = new Item(name, 1, "кг.", 10.0, "EUR");
+        Response resp = api.itemAPI().createItem(item);
+        Assertions.assertEquals(201, resp.statusCode());
+        LoginPage loginPage = new LoginPage(page);
+        loginPage.login();
+        //Navigates to Item page
+        page.click("#tabs_objects");
+        //Expand search form
+        page.click("#searchbtn");
+        //Enter search criteria
+        page.fill("input[name='nm']", name);
+        //Trigger search
+        page.click("input[name='s']");
+        //Check the search result output
+        String searchResult = page.textContent("a.faktura_id");
+        Assertions.assertTrue(searchResult.contains(name));
     }
 }
