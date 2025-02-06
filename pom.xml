@@ -99,7 +99,7 @@
                         <baseUrl>https://api.inv.bg</baseUrl>
                         <apiVersion>/v3</apiVersion>
                         <email>karamfilovs@gmail.com</email>
-                        <password>123456</password>
+                        <password>111111</password>
                         <domain>st2016</domain>
                     </systemProperties>
                 </configuration>
