@@ -14,7 +14,7 @@ public class BaseAPITest {
     private final static Logger LOGGER = LoggerFactory.getLogger(ClientAPITest.class);
     private final static TokenAPI tokenAPI = new TokenAPI("");
     private static final String EMAIL = System.getProperty("email", "karamfilovs@gmail.com");
-    private static final String PASSWORD = System.getProperty("password", "123456");
+    private static final String PASSWORD = System.getProperty("password", "111111");
     private static final String DOMAIN = System.getProperty("domain", "st2016");
     protected static API api = null;
     protected final Gson GSON = new Gson().newBuilder()
