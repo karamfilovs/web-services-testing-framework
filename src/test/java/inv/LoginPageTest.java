@@ -79,7 +79,7 @@ public class LoginPageTest extends BaseAPITest {
         page.fill(emailSelector, "karamfilovs@gmail.com");
         //Enter password
         String passwordSelector = "#loginpassword";
-        page.fill(passwordSelector, "123456");
+        page.fill(passwordSelector, "123456"); //dummy text
         //Click Login button
         page.waitForNavigation(() -> {
             page.click(loginButtonSelector);
