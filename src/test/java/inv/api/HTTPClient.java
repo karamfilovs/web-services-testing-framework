@@ -62,6 +62,7 @@ public class HTTPClient {
                 .log()
                 .all()
                 .contentType(ContentType.JSON)
+                .header("User-Agent", "Delyancho")
                 .accept(ContentType.JSON);
     }
 }
