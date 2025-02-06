@@ -48,5 +48,6 @@ public class ItemAPITest extends BaseAPITest {
         Response resp = api.itemAPI().getAll();
         Assertions.assertEquals(200, resp.statusCode());
         Assertions.assertFalse(resp.body().asString().isEmpty());
+
     }
 }
